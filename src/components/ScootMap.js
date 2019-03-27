@@ -21,7 +21,7 @@ const AnyReactComponent = ({ icon, id }) => (
 export default class ScootMap extends React.Component {
   static defaultProps = {
     center: { lat: 37.77, lng: -122.41 },
-    zoom: 12,
+    zoom: 16,
     data: null,
     userLat: 37.77,
     userLng: -122.41,
