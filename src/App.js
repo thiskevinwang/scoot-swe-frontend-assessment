@@ -72,6 +72,10 @@ export default class App extends Component<null, { ...State }> {
     };
   }
 
+  _handleNumberChange = e => {
+    this.setState({ [e.target.name]: parseFloat(e.target.value) });
+  };
+
   fetchData = () => {
     fetch(APIENDPOINT)
       .then(response => response.json())
@@ -110,31 +114,31 @@ export default class App extends Component<null, { ...State }> {
             style={{ display: "flex", flexDirection: "column" }}
           >
             <TextField
+              name={"lat"}
+              type={"number"}
               label={"lat"}
               value={lat}
               style={styles.inputStyles}
               variant={"outlined"}
-              onChange={e => {
-                this.setState({ lat: e.target.value });
-              }}
+              onChange={e => this._handleNumberChange(e)}
             />
             <TextField
+              name={"lng"}
+              type={"number"}
               label={"lng"}
               value={lng}
               style={styles.inputStyles}
               variant={"outlined"}
-              onChange={e => {
-                this.setState({ lng: e.target.value });
-              }}
+              onChange={e => this._handleNumberChange(e)}
             />
             <TextField
+              name={"range"}
+              type={"number"}
               label={"range"}
               value={range}
               style={styles.inputStyles}
               variant={"outlined"}
-              onChange={e => {
-                this.setState({ range: e.target.value });
-              }}
+              onChange={e => this._handleNumberChange(e)}
               InputProps={{
                 endAdornment: <InputAdornment position="end">m</InputAdornment>
               }}
