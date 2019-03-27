@@ -85,8 +85,13 @@ export default class App extends Component<null, { ...State }> {
       });
   };
 
+  updateData = () => setInterval(this.fetchData, 5000);
+
   componentDidMount() {
-    this.fetchData();
+    this.updateData();
+  }
+  componentWillUnmount() {
+    clearInterval(this.updateData);
   }
 
   render() {
