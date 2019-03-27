@@ -1,6 +1,5 @@
 import React from "react";
 import GoogleMapReact from "google-map-react";
-import forEach from "lodash/forEach";
 import geolib from "geolib";
 
 const AnyReactComponent = ({ icon, id }) => (
@@ -65,12 +64,15 @@ export default class ScootMap extends React.Component {
                 )
               );
             })}
-          {/* <div lat={"37.77"} lng={"-122.41"} text={"📍"}>
+          <div lat={"37.77"} lng={"-122.41"}>
+            🏠
+          </div>
+          <div
+            lat={parseFloat(this.props.userLat)}
+            lng={parseFloat(this.props.userLng)}
+          >
             📍
           </div>
-          <div lat={"36.77"} lng={"-122.41"} text={"📍"}>
-            📍
-          </div> */}
         </GoogleMapReact>
       </div>
     );
