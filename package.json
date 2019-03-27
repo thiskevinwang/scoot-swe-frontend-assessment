@@ -4,6 +4,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "geolib": "^2.0.24",
     "google-map-react": "^1.1.2",
     "lodash": "^4.17.11",
     "react": "^16.8.5",
