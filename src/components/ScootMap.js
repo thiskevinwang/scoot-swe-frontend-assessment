@@ -1,22 +1,7 @@
 import React from "react";
 import GoogleMapReact from "google-map-react";
 import geolib from "geolib";
-
-const AnyReactComponent = ({ icon, id }) => (
-  <div
-    style={{
-      display: "flex",
-      flexDirection: "column",
-      textAlign: "center",
-      alignItems: "center",
-      justifyContent: "center",
-      transform: "translate(-50%, -50%)"
-    }}
-  >
-    <div style={{ fontSize: 20 }}>{icon}</div>
-    <div className="className">#{id}</div>
-  </div>
-);
+import ScooterIcon from "./ScooterIcon";
 
 export default class ScootMap extends React.Component {
   static defaultProps = {
@@ -51,7 +36,7 @@ export default class ScootMap extends React.Component {
                   },
                   { latitude: each.latitude, longitude: each.longitude }
                 ) <= this.props.range && (
-                  <AnyReactComponent
+                  <ScooterIcon
                     lat={each.latitude}
                     lng={each.longitude}
                     id={each.id}
