@@ -5,6 +5,7 @@ import ScootMap from "./components/ScootMap";
 import "./App.css";
 import { APIENDPOINT } from "./constants/ApiEndpoint";
 import TextField from "@material-ui/core/TextField";
+import InputAdornment from "@material-ui/core/InputAdornment";
 import Button from "@material-ui/core/Button";
 
 const styles = {
@@ -123,12 +124,15 @@ export default class App extends Component<null, { ...State }> {
               }}
             />
             <TextField
-              label={"range (m)"}
+              label={"range"}
               value={range}
               style={styles.inputStyles}
               variant={"outlined"}
               onChange={e => {
                 this.setState({ range: e.target.value });
+              }}
+              InputProps={{
+                endAdornment: <InputAdornment position="end">m</InputAdornment>
               }}
             />
             <Button
