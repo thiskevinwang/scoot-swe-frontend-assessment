@@ -1,16 +1,26 @@
 //@flow
 
 import React, { Component } from "react";
-import ScootMap from "./components/ScootMap";
-import "./App.css";
-import { APIENDPOINT } from "./constants/ApiEndpoint";
 import TextField from "@material-ui/core/TextField";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import Button from "@material-ui/core/Button";
 
+import ScootMap from "./components/ScootMap";
+import { APIENDPOINT } from "./constants/ApiEndpoint";
+
 const styles = {
   inputStyles: {
     margin: 15
+  },
+  appStyles: {
+    backgroundColor: "white",
+    minHeight: `100vh`,
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+    fontSize: `calc(10px + 2vmin)`,
+    color: "black"
   }
 };
 
@@ -77,18 +87,15 @@ export default class App extends Component<null, { ...State }> {
 
   render() {
     let { data, lat, lng, range } = this.state;
-
     let dateFrom = unitTimestamp => new Date(unitTimestamp);
 
     return (
       <div className="App">
-        <div style={{ color: "black" }}>{APIENDPOINT}</div>
-        <div style={{ color: "black" }}>
-          {data && dateFrom(data.asof).toString()}
-        </div>
+        <div>{APIENDPOINT}</div>
+        <div>{data && dateFrom(data.asof).toString()}</div>
         <div
           className="App-header"
-          style={{ display: "flex", flexDirection: "row" }}
+          style={{ ...styles.appStyles, flexDirection: "row" }}
         >
           <div className="map-container">
             <ScootMap
