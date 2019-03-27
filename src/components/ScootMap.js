@@ -47,8 +47,8 @@ export default class ScootMap extends React.Component {
               return (
                 geolib.getDistance(
                   {
-                    latitude: this.props.userLat,
-                    longitude: this.props.userLng
+                    latitude: parseFloat(this.props.userLat) || 37.77,
+                    longitude: parseFloat(this.props.userLng) || -122.41
                   },
                   { latitude: each.latitude, longitude: each.longitude }
                 ) <= this.props.range && (
