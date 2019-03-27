@@ -4,6 +4,7 @@ import React, { Component } from "react";
 import ScootMap from "./components/ScootMap";
 import "./App.css";
 import { APIENDPOINT } from "./constants/ApiEndpoint";
+import TextField from "@material-ui/core/TextField";
 
 type Data = {
   user_id: string,
@@ -41,7 +42,7 @@ type Data = {
 
 type State = { data: { ...Data } };
 
-class App extends Component<null, { ...State }> {
+export default class App extends Component<null, { ...State }> {
   constructor() {
     super();
 
@@ -69,22 +70,22 @@ class App extends Component<null, { ...State }> {
       <div className="App">
         <div className="App-header">
           <div className="controls">
-            <input
-              name={"lat"}
+            <TextField
+              label={"lat"}
               value={lat}
               onChange={e => {
                 this.setState({ lat: e.target.value });
               }}
             />
-            <input
-              name={"lng"}
+            <TextField
+              label={"lng"}
               value={lng}
               onChange={e => {
                 this.setState({ lng: e.target.value });
               }}
             />
-            <input
-              name={"range"}
+            <TextField
+              label={"range (m)"}
               value={range}
               onChange={e => {
                 this.setState({ range: e.target.value });
@@ -106,5 +107,3 @@ class App extends Component<null, { ...State }> {
     );
   }
 }
-
-export default App;
