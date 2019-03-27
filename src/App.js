@@ -18,7 +18,7 @@ type Data = {
     current_location_id: number,
     home_location_id: number,
     physical_scoot_id: string,
-    is_charging: true,
+    is_charging: boolean,
     latitude: string,
     longitude: string,
     "is_at_scoot_stop?": boolean,
