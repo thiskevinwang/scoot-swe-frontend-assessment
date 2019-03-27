@@ -5,6 +5,7 @@ import ScootMap from "./components/ScootMap";
 import "./App.css";
 import { APIENDPOINT } from "./constants/ApiEndpoint";
 import TextField from "@material-ui/core/TextField";
+import Button from "@material-ui/core/Button";
 
 const styles = {
   inputStyles: {
@@ -60,20 +61,30 @@ export default class App extends Component<null, { ...State }> {
     };
   }
 
-  componentDidMount() {
+  fetchData = () => {
     fetch(APIENDPOINT)
       .then(response => response.json())
       .then(data => {
         console.log(data);
         this.setState({ data });
       });
+  };
+
+  componentDidMount() {
+    this.fetchData();
   }
 
   render() {
     let { data, lat, lng, range } = this.state;
 
+    let dateFrom = unitTimestamp => new Date(unitTimestamp);
+
     return (
       <div className="App">
+        <div style={{ color: "black" }}>{APIENDPOINT}</div>
+        <div style={{ color: "black" }}>
+          {data && dateFrom(data.asof).toString()}
+        </div>
         <div
           className="App-header"
           style={{ display: "flex", flexDirection: "row" }}
@@ -120,9 +131,14 @@ export default class App extends Component<null, { ...State }> {
                 this.setState({ range: e.target.value });
               }}
             />
+            <Button
+              onClick={() => {
+                this.fetchData();
+              }}
+            >
+              Refresh
+            </Button>
           </div>
-
-          <div>{APIENDPOINT}</div>
         </div>
       </div>
     );
