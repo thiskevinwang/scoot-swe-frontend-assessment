@@ -4,19 +4,23 @@ import React, { Component } from "react";
 import TextField from "@material-ui/core/TextField";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import Button from "@material-ui/core/Button";
+import { isMobile } from "react-device-detect";
 
 import ScootMap from "./components/ScootMap";
 import { APIENDPOINT } from "./constants/ApiEndpoint";
 
 const styles = {
+  appStyles: {
+    padding: 15
+  },
   inputStyles: {
     margin: 15
   },
-  appStyles: {
+  contentContainer: {
     backgroundColor: "white",
-    minHeight: `100vh`,
     display: "flex",
-    flexDirection: "column",
+    flex: 1,
+    flexDirection: isMobile ? "column" : "row-reverse",
     alignItems: "center",
     justifyContent: "center",
     fontSize: `calc(10px + 2vmin)`,
@@ -99,24 +103,18 @@ export default class App extends Component<null, { ...State }> {
     let dateFrom = unitTimestamp => new Date(unitTimestamp);
 
     return (
-      <div>
+      <div style={styles.appStyles}>
         <div>Last updated:</div>
         <div>{data && dateFrom(data.asof).toString()}</div>
-        <div style={{ ...styles.appStyles, flexDirection: "row" }}>
-          <div className="map-container">
-            <ScootMap
-              width={600}
-              height={400}
-              data={data}
-              userLat={lat}
-              userLng={lng}
-              range={range}
-            />
-          </div>
-
+        <div style={styles.contentContainer}>
           <div
             className="map-controls"
-            style={{ display: "flex", flexDirection: "column" }}
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              width: `100%`,
+              maxWidth: 600
+            }}
           >
             <TextField
               name={"lat"}
@@ -157,6 +155,16 @@ export default class App extends Component<null, { ...State }> {
             >
               Refresh
             </Button>
+          </div>
+          <div className="map-container">
+            <ScootMap
+              width={600}
+              height={400}
+              data={data}
+              userLat={lat}
+              userLng={lng}
+              range={range}
+            />
           </div>
         </div>
       </div>
