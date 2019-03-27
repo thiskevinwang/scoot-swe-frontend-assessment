@@ -90,13 +90,10 @@ export default class App extends Component<null, { ...State }> {
     let dateFrom = unitTimestamp => new Date(unitTimestamp);
 
     return (
-      <div className="App">
-        <div>{APIENDPOINT}</div>
+      <div>
+        <div>Last updated:</div>
         <div>{data && dateFrom(data.asof).toString()}</div>
-        <div
-          className="App-header"
-          style={{ ...styles.appStyles, flexDirection: "row" }}
-        >
+        <div style={{ ...styles.appStyles, flexDirection: "row" }}>
           <div className="map-container">
             <ScootMap
               width={600}
@@ -143,6 +140,8 @@ export default class App extends Component<null, { ...State }> {
               }}
             />
             <Button
+              style={styles.inputStyles}
+              variant={"raised"}
               onClick={() => {
                 this.fetchData();
               }}
