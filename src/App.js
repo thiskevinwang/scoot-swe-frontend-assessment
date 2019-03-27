@@ -28,7 +28,7 @@ const styles = {
   }
 };
 
-type Data = {
+export type Data = {
   user_id: string,
   asof: number,
   scooter_ids: Array<number>,

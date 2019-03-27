@@ -1,10 +1,24 @@
+//@flow
 import React from "react";
 import GoogleMapReact from "google-map-react";
 import geolib from "geolib";
 import ScooterIcon from "./ScooterIcon";
+import { Data } from "../App";
 
-export default class ScootMap extends React.Component {
-  static defaultProps = {
+type Props = {
+  center: {
+    lat: number,
+    lng: number
+  },
+  zoom: number,
+  data?: { ...Data },
+  userLat: number,
+  userLng: number,
+  range: number
+};
+
+export default class ScootMap extends React.Component<Props, null> {
+  static defaultProps: Props = {
     center: { lat: 37.77, lng: -122.41 },
     zoom: 16,
     data: null,
