@@ -6,6 +6,12 @@ import "./App.css";
 import { APIENDPOINT } from "./constants/ApiEndpoint";
 import TextField from "@material-ui/core/TextField";
 
+const styles = {
+  inputStyles: {
+    margin: 15
+  }
+};
+
 type Data = {
   user_id: string,
   asof: number,
@@ -68,11 +74,30 @@ export default class App extends Component<null, { ...State }> {
 
     return (
       <div className="App">
-        <div className="App-header">
-          <div className="controls">
+        <div
+          className="App-header"
+          style={{ display: "flex", flexDirection: "row" }}
+        >
+          <div className="map-container">
+            <ScootMap
+              width={600}
+              height={400}
+              data={data}
+              userLat={lat}
+              userLng={lng}
+              range={range}
+            />
+          </div>
+
+          <div
+            className="map-controls"
+            style={{ display: "flex", flexDirection: "column" }}
+          >
             <TextField
               label={"lat"}
               value={lat}
+              style={styles.inputStyles}
+              variant={"outlined"}
               onChange={e => {
                 this.setState({ lat: e.target.value });
               }}
@@ -80,6 +105,8 @@ export default class App extends Component<null, { ...State }> {
             <TextField
               label={"lng"}
               value={lng}
+              style={styles.inputStyles}
+              variant={"outlined"}
               onChange={e => {
                 this.setState({ lng: e.target.value });
               }}
@@ -87,19 +114,13 @@ export default class App extends Component<null, { ...State }> {
             <TextField
               label={"range (m)"}
               value={range}
+              style={styles.inputStyles}
+              variant={"outlined"}
               onChange={e => {
                 this.setState({ range: e.target.value });
               }}
             />
           </div>
-          <ScootMap
-            width={600}
-            height={400}
-            data={data}
-            userLat={lat}
-            userLng={lng}
-            range={range}
-          />
 
           <div>{APIENDPOINT}</div>
         </div>
