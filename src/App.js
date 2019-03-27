@@ -48,7 +48,8 @@ class App extends Component<null, { ...State }> {
     this.state = {
       data: null,
       lat: 37.77,
-      lng: -122.41
+      lng: -122.41,
+      range: 300
     };
   }
 
@@ -62,7 +63,7 @@ class App extends Component<null, { ...State }> {
   }
 
   render() {
-    let { data, lat, lng } = this.state;
+    let { data, lat, lng, range } = this.state;
 
     return (
       <div className="App">
@@ -82,8 +83,22 @@ class App extends Component<null, { ...State }> {
                 this.setState({ lng: e.target.value });
               }}
             />
+            <input
+              name={"range"}
+              value={range}
+              onChange={e => {
+                this.setState({ range: e.target.value });
+              }}
+            />
           </div>
-          <ScootMap width={600} height={400} data={data} />
+          <ScootMap
+            width={600}
+            height={400}
+            data={data}
+            userLat={lat}
+            userLng={lng}
+            range={range}
+          />
 
           <div>{APIENDPOINT}</div>
         </div>

@@ -1,19 +1,21 @@
 import React from "react";
 import GoogleMapReact from "google-map-react";
 import forEach from "lodash/forEach";
+import geolib from "geolib";
 
-const AnyReactComponent = ({ text }) => (
+const AnyReactComponent = ({ icon, id }) => (
   <div
     style={{
       display: "flex",
+      flexDirection: "column",
       textAlign: "center",
-      fontSize: 20,
       alignItems: "center",
       justifyContent: "center",
       transform: "translate(-50%, -50%)"
     }}
   >
-    {text}
+    <div style={{ fontSize: 20 }}>{icon}</div>
+    <div className="className">#{id}</div>
   </div>
 );
 
@@ -28,6 +30,12 @@ export default class ScootMap extends React.Component {
   };
 
   render() {
+    // console.log(
+    //   geolib.getDistance(
+    //     { latitude: 51.5103, longitude: 7.49347 },
+    //     { latitude: "51° 31' N", longitude: "7° 28' E" }
+    //   )
+    // );
     return (
       <div style={{ width: this.props.width, height: this.props.height }}>
         <GoogleMapReact
@@ -35,13 +43,28 @@ export default class ScootMap extends React.Component {
           defaultZoom={this.props.zoom}
         >
           {this.props.data &&
-            this.props.data.scooters.map(each => (
-              <AnyReactComponent
-                lat={each.latitude}
-                lng={each.longitude}
-                text={"📍"}
-              />
-            ))}
+            this.props.data.scooters.map(each => {
+              return (
+                geolib.getDistance(
+                  {
+                    latitude: this.props.userLat,
+                    longitude: this.props.userLng
+                  },
+                  { latitude: each.latitude, longitude: each.longitude }
+                ) <= this.props.range && (
+                  <AnyReactComponent
+                    lat={each.latitude}
+                    lng={each.longitude}
+                    id={each.id}
+                    icon={
+                      each.vehicle_type.vehicle_class === "scooter"
+                        ? "🛵"
+                        : "🛴"
+                    }
+                  />
+                )
+              );
+            })}
           {/* <div lat={"37.77"} lng={"-122.41"} text={"📍"}>
             📍
           </div>
