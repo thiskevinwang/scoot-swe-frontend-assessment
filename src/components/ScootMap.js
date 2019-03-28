@@ -28,12 +28,6 @@ export default class ScootMap extends React.Component<Props, null> {
   };
 
   render() {
-    // console.log(
-    //   geolib.getDistance(
-    //     { latitude: 51.5103, longitude: 7.49347 },
-    //     { latitude: "51° 31' N", longitude: "7° 28' E" }
-    //   )
-    // );
     return (
       <div style={{ width: this.props.width, height: this.props.height }}>
         <GoogleMapReact
@@ -41,7 +35,7 @@ export default class ScootMap extends React.Component<Props, null> {
           defaultZoom={this.props.zoom}
         >
           {this.props.data &&
-            this.props.data.scooters.map(each => {
+            this.props.data.scooters.map((each, i) => {
               return (
                 geolib.getDistance(
                   {
@@ -51,6 +45,7 @@ export default class ScootMap extends React.Component<Props, null> {
                   { latitude: each.latitude, longitude: each.longitude }
                 ) <= this.props.range && (
                   <ScooterIcon
+                    key={i}
                     lat={each.latitude}
                     lng={each.longitude}
                     id={each.id}

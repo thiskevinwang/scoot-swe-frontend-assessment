@@ -91,7 +91,7 @@ export default class App extends Component<null, { ...State }> {
     fetch(APIENDPOINT)
       .then(response => response.json())
       .then(data => {
-        console.log(data);
+        process.env.NODE_ENV === "development" && console.log(data);
         this.setState({ data });
       });
   };
@@ -135,6 +135,7 @@ export default class App extends Component<null, { ...State }> {
         <Grid style={styles.appStyles}>
           <div style={styles.contentContainer}>
             <Grid
+              item
               xs={12}
               className="map-controls"
               style={{
@@ -195,7 +196,7 @@ export default class App extends Component<null, { ...State }> {
                 Refresh
               </Button>
             </Grid>
-            <Grid xs={12} className="map-container">
+            <Grid item xs={12} className="map-container">
               <ScootMap
                 center={{ lat, lng }}
                 width={600}
@@ -208,7 +209,7 @@ export default class App extends Component<null, { ...State }> {
             </Grid>
           </div>
         </Grid>
-        <Grid xs={12} style={styles.appStyles}>
+        <Grid item xs={12} style={styles.appStyles}>
           <ScootTable data={scootersWithinRange} />
         </Grid>
       </>

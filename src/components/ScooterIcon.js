@@ -3,7 +3,7 @@ import React from "react";
 
 type Props = { icon: string, id: string };
 
-export default function ScooterIcon({ icon, id }: { ...Props }) {
+export default function ScooterIcon({ icon, id, lat, lng }: { ...Props }) {
   return (
     <div
       style={{
