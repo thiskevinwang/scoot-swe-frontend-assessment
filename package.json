@@ -3,6 +3,10 @@
   "author": "Kevin Wang",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": ">=6.5",
+    "npm": ">=3.10"
+  },
   "dependencies": {
     "@material-ui/core": "^3.9.2",
     "bootstrap": "^4.3.1",
@@ -21,7 +25,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "prod": "npm run build && serve -s build"
   },
   "eslintConfig": {
     "extends": "react-app"

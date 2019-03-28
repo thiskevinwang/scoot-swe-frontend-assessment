@@ -3,7 +3,7 @@ import React from "react";
 
 type Props = { icon: string, id: string };
 
-export default function ScooterIcon({ icon, id }: { ...Props }) {
+export default function ScooterIcon({ icon, id, lat, lng }: { ...Props }) {
   return (
     <div
       style={{
@@ -14,8 +14,10 @@ export default function ScooterIcon({ icon, id }: { ...Props }) {
         justifyContent: "center"
       }}
     >
-      <div style={{ fontSize: 20 }}>{icon}</div>
-      <div style={{ fontSize: 12, color: "white" }}>#{id}</div>
+      <div style={{ fontSize: 24 }}>{icon}</div>
+      <div style={{ fontSize: 14, fontWeight: "bold", color: "#FD4452" }}>
+        #{id}
+      </div>
     </div>
   );
 }

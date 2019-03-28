@@ -5,17 +5,16 @@ import TextField from "@material-ui/core/TextField";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
-import LinearProgress from "@material-ui/core/LinearProgress";
 import { isMobile } from "react-device-detect";
-import BootstrapTable from "react-bootstrap-table-next";
-import "bootstrap/dist/css/bootstrap.min.css";
-import "react-bootstrap-table2-paginator/dist/react-bootstrap-table2-paginator.min.css";
-import paginationFactory from "react-bootstrap-table2-paginator";
 import geolib from "geolib";
 import filter from "lodash/filter";
 
 import ScootMap from "./components/ScootMap";
+import ScootTable from "./components/ScootTable";
 import { APIENDPOINT } from "./constants/ApiEndpoint";
+
+export const DEFAULTLAT = 37.775552;
+export const DEFAULTLNG = -122.412469;
 
 const styles = {
   appStyles: {
@@ -35,54 +34,6 @@ const styles = {
     color: "black"
   }
 };
-
-const columns = [
-  {
-    dataField: "id",
-    text: "ID",
-    sort: true
-  },
-  {
-    dataField: "current_location_id",
-    text: "Current Location Id",
-    sort: true
-  },
-  {
-    dataField: "home_location_id",
-    text: "Home Location Id",
-    sort: true
-  },
-  {
-    dataField: "physical_scoot_id",
-    text: "Physical Scoot Id",
-    sort: true
-  },
-  {
-    dataField: "is_charging",
-    text: "Is Charging",
-    sort: true
-  },
-  {
-    dataField: "latitude",
-    text: "Latitude",
-    sort: true
-  },
-  {
-    dataField: "longitude",
-    text: "Longitude",
-    sort: true
-  },
-  {
-    dataField: "is_at_scoot_stop?",
-    text: "Is At Scoot Stop?",
-    sort: true
-  },
-  {
-    dataField: "batt_pct_smoothed",
-    text: "Batt PCT Smoothed?",
-    sort: true
-  }
-];
 
 export type Data = {
   user_id: string,
@@ -126,8 +77,8 @@ export default class App extends Component<null, { ...State }> {
 
     this.state = {
       data: null,
-      lat: 37.77,
-      lng: -122.41,
+      lat: DEFAULTLAT,
+      lng: DEFAULTLNG,
       range: 300
     };
   }
@@ -140,7 +91,7 @@ export default class App extends Component<null, { ...State }> {
     fetch(APIENDPOINT)
       .then(response => response.json())
       .then(data => {
-        console.log(data);
+        process.env.NODE_ENV === "development" && console.log(data);
         this.setState({ data });
       });
   };
@@ -165,8 +116,8 @@ export default class App extends Component<null, { ...State }> {
         each =>
           geolib.getDistance(
             {
-              latitude: parseFloat(lat),
-              longitude: parseFloat(lng)
+              latitude: parseFloat(lat) || DEFAULTLAT,
+              longitude: parseFloat(lng) || DEFAULTLNG
             },
             {
               latitude: parseFloat(each.latitude),
@@ -180,8 +131,12 @@ export default class App extends Component<null, { ...State }> {
         <Grid style={styles.appStyles}>
           <div>Last updated:</div>
           <code>{data ? dateFrom(data.asof).toString() : "fetching..."}</code>
+        </Grid>
+        <Grid style={styles.appStyles}>
           <div style={styles.contentContainer}>
-            <div
+            <Grid
+              item
+              xs={12}
               className="map-controls"
               style={{
                 display: "flex",
@@ -195,18 +150,27 @@ export default class App extends Component<null, { ...State }> {
                 type={"number"}
                 label={"lat"}
                 value={lat}
+                helperText="Try adjusting in .001 increments"
+                placeholder="37.775552"
                 style={styles.inputStyles}
                 variant={"outlined"}
                 onChange={e => this._handleNumberChange(e)}
+                onBlur={() => {
+                  !lat && this.setState({ lat: DEFAULTLAT });
+                }}
               />
               <TextField
                 name={"lng"}
                 type={"number"}
                 label={"lng"}
                 value={lng}
+                placeholder="-122.412469"
                 style={styles.inputStyles}
                 variant={"outlined"}
                 onChange={e => this._handleNumberChange(e)}
+                onBlur={() => {
+                  !lng && this.setState({ lng: DEFAULTLNG });
+                }}
               />
               <TextField
                 name={"range"}
@@ -231,9 +195,10 @@ export default class App extends Component<null, { ...State }> {
               >
                 Refresh
               </Button>
-            </div>
-            <div className="map-container">
+            </Grid>
+            <Grid item xs={12} className="map-container">
               <ScootMap
+                center={{ lat, lng }}
                 width={600}
                 height={400}
                 data={data}
@@ -241,25 +206,11 @@ export default class App extends Component<null, { ...State }> {
                 userLng={lng}
                 range={range}
               />
-            </div>
+            </Grid>
           </div>
-          <Grid
-            className="table"
-            style={{ display: "flex", flexDirection: "column", marginTop: 10 }}
-          >
-            {data ? (
-              <BootstrapTable
-                keyField="id"
-                data={scootersWithinRange}
-                columns={columns}
-                pagination={paginationFactory()}
-              />
-            ) : (
-              <div>
-                <LinearProgress />
-              </div>
-            )}
-          </Grid>
+        </Grid>
+        <Grid item xs={12} style={styles.appStyles}>
+          <ScootTable data={scootersWithinRange} />
         </Grid>
       </>
     );
