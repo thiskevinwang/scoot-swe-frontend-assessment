@@ -1,3 +1,5 @@
+[![Netlify Status](https://api.netlify.com/api/v1/badges/930d9188-cff4-44c1-8966-e23b56695574/deploy-status)](https://app.netlify.com/sites/kevin-scoot-swe-frontend-assessment/deploys)
+
 # Scoot - Associate SWE Assignment
 
 The **Front End** project for Scoot Networks' Associate Engineer assessment.
