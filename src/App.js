@@ -4,7 +4,9 @@ import React, { Component } from "react";
 import TextField from "@material-ui/core/TextField";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import Button from "@material-ui/core/Button";
+import Grid from "@material-ui/core/Grid";
 import { isMobile } from "react-device-detect";
+import BootstrapTable from "react-bootstrap-table-next";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 import ScootMap from "./components/ScootMap";
@@ -28,6 +30,25 @@ const styles = {
     color: "black"
   }
 };
+
+const columns = [
+  {
+    dataField: "id",
+    text: "ID"
+  },
+  {
+    dataField: "is_charging",
+    text: "Is Charging?"
+  },
+  {
+    dataField: "latitude",
+    text: "Latitude"
+  },
+  {
+    dataField: "longitude",
+    text: "Longitude"
+  }
+];
 
 export type Data = {
   user_id: string,
@@ -104,71 +125,86 @@ export default class App extends Component<null, { ...State }> {
     let dateFrom = unitTimestamp => new Date(unitTimestamp);
 
     return (
-      <div style={styles.appStyles}>
-        <div>Last updated:</div>
-        <div>{data && dateFrom(data.asof).toString()}</div>
-        <div style={styles.contentContainer}>
-          <div
-            className="map-controls"
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              width: `100%`,
-              maxWidth: 600
-            }}
-          >
-            <TextField
-              name={"lat"}
-              type={"number"}
-              label={"lat"}
-              value={lat}
-              style={styles.inputStyles}
-              variant={"outlined"}
-              onChange={e => this._handleNumberChange(e)}
-            />
-            <TextField
-              name={"lng"}
-              type={"number"}
-              label={"lng"}
-              value={lng}
-              style={styles.inputStyles}
-              variant={"outlined"}
-              onChange={e => this._handleNumberChange(e)}
-            />
-            <TextField
-              name={"range"}
-              type={"number"}
-              label={"range"}
-              value={range}
-              style={styles.inputStyles}
-              variant={"outlined"}
-              onChange={e => this._handleNumberChange(e)}
-              InputProps={{
-                endAdornment: <InputAdornment position="end">m</InputAdornment>
-              }}
-            />
-            <Button
-              style={styles.inputStyles}
-              variant={"raised"}
-              onClick={() => {
-                this.fetchData();
+      <>
+        <Grid style={styles.appStyles}>
+          <div>Last updated:</div>
+          <div>{data && dateFrom(data.asof).toString()}</div>
+          <div style={styles.contentContainer}>
+            <div
+              className="map-controls"
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                width: `100%`,
+                maxWidth: 600
               }}
             >
-              Refresh
-            </Button>
+              <TextField
+                name={"lat"}
+                type={"number"}
+                label={"lat"}
+                value={lat}
+                style={styles.inputStyles}
+                variant={"outlined"}
+                onChange={e => this._handleNumberChange(e)}
+              />
+              <TextField
+                name={"lng"}
+                type={"number"}
+                label={"lng"}
+                value={lng}
+                style={styles.inputStyles}
+                variant={"outlined"}
+                onChange={e => this._handleNumberChange(e)}
+              />
+              <TextField
+                name={"range"}
+                type={"number"}
+                label={"range"}
+                value={range}
+                style={styles.inputStyles}
+                variant={"outlined"}
+                onChange={e => this._handleNumberChange(e)}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">m</InputAdornment>
+                  )
+                }}
+              />
+              <Button
+                style={styles.inputStyles}
+                variant={"raised"}
+                onClick={() => {
+                  this.fetchData();
+                }}
+              >
+                Refresh
+              </Button>
+            </div>
+            <div className="map-container">
+              <ScootMap
+                width={600}
+                height={400}
+                data={data}
+                userLat={lat}
+                userLng={lng}
+                range={range}
+              />
+            </div>
           </div>
-          <div className="map-container">
-            <ScootMap
-              width={600}
-              height={400}
-              data={data}
-              userLat={lat}
-              userLng={lng}
-              range={range}
-            />
-          </div>
-        </div>
-      </div>
+          <Grid className="table" style={{ display: "flex" }}>
+            {data ? (
+              <BootstrapTable
+                keyField="id"
+                data={data.scooters}
+                columns={columns}
+              />
+            ) : (
+              <div>Loading...</div>
+            )}
+          </Grid>
+        </Grid>
+      </>
     );
   }
 }
