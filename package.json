@@ -3,6 +3,10 @@
   "author": "Kevin Wang",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": ">=6.5",
+    "npm": ">=3.10"
+  },
   "dependencies": {
     "@material-ui/core": "^3.9.2",
     "bootstrap": "^4.3.1",
