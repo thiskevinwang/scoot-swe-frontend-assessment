@@ -5,6 +5,7 @@ import TextField from "@material-ui/core/TextField";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
+import LinearProgress from "@material-ui/core/LinearProgress";
 import { isMobile } from "react-device-detect";
 import BootstrapTable from "react-bootstrap-table-next";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -43,35 +44,43 @@ const columns = [
   },
   {
     dataField: "current_location_id",
-    text: "Current Location Id"
+    text: "Current Location Id",
+    sort: true
   },
   {
     dataField: "home_location_id",
-    text: "Home Location Id"
+    text: "Home Location Id",
+    sort: true
   },
   {
     dataField: "physical_scoot_id",
-    text: "Physical Scoot Id"
+    text: "Physical Scoot Id",
+    sort: true
   },
   {
     dataField: "is_charging",
-    text: "Is Charging"
+    text: "Is Charging",
+    sort: true
   },
   {
     dataField: "latitude",
-    text: "Latitude"
+    text: "Latitude",
+    sort: true
   },
   {
     dataField: "longitude",
-    text: "Longitude"
+    text: "Longitude",
+    sort: true
   },
   {
     dataField: "is_at_scoot_stop?",
-    text: "Is At Scoot Stop?"
+    text: "Is At Scoot Stop?",
+    sort: true
   },
   {
     dataField: "batt_pct_smoothed",
-    text: "Batt PCT Smoothed?"
+    text: "Batt PCT Smoothed?",
+    sort: true
   }
 ];
 
@@ -170,7 +179,7 @@ export default class App extends Component<null, { ...State }> {
       <>
         <Grid style={styles.appStyles}>
           <div>Last updated:</div>
-          <div>{data && dateFrom(data.asof).toString()}</div>
+          <code>{data ? dateFrom(data.asof).toString() : "fetching..."}</code>
           <div style={styles.contentContainer}>
             <div
               className="map-controls"
@@ -246,7 +255,9 @@ export default class App extends Component<null, { ...State }> {
                 pagination={paginationFactory()}
               />
             ) : (
-              <div>Loading...</div>
+              <div>
+                <LinearProgress />
+              </div>
             )}
           </Grid>
         </Grid>
