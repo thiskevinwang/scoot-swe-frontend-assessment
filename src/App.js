@@ -146,6 +146,8 @@ export default class App extends Component<null, { ...State }> {
                 type={"number"}
                 label={"lat"}
                 value={lat}
+                helperText="Try adjusting in .001 increments"
+                placeholder="37.775552"
                 style={styles.inputStyles}
                 variant={"outlined"}
                 onChange={e => this._handleNumberChange(e)}
@@ -155,6 +157,7 @@ export default class App extends Component<null, { ...State }> {
                 type={"number"}
                 label={"lng"}
                 value={lng}
+                placeholder="-122.412469"
                 style={styles.inputStyles}
                 variant={"outlined"}
                 onChange={e => this._handleNumberChange(e)}
