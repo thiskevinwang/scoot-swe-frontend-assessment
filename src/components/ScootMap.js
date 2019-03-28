@@ -5,6 +5,8 @@ import geolib from "geolib";
 import ScooterIcon from "./ScooterIcon";
 import { Data, DEFAULTLAT, DEFAULTLNG } from "../App";
 
+const KEY = process.env.REACT_APP_GOOGLE_API_KEY;
+
 type Props = {
   center: {
     lat: number,
@@ -31,6 +33,9 @@ export default class ScootMap extends React.Component<Props, null> {
     return (
       <div style={{ width: this.props.width, height: this.props.height }}>
         <GoogleMapReact
+          bootstrapURLKeys={
+            process.env.NODE_ENV === "production" && KEY != null && { key: KEY }
+          }
           defaultCenter={this.props.center}
           defaultZoom={this.props.zoom}
         >
