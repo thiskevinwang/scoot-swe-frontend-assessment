@@ -19,11 +19,11 @@ type Props = {
 
 export default class ScootMap extends React.Component<Props, null> {
   static defaultProps: Props = {
-    center: { lat: 37.77, lng: -122.41 },
-    zoom: 16,
+    center: { lat: 37.775552, lng: -122.412469 },
+    zoom: 14,
     data: null,
-    userLat: 37.77,
-    userLng: -122.41,
+    userLat: 37.775552,
+    userLng: -122.412469,
     range: 300
   };
 
@@ -63,7 +63,7 @@ export default class ScootMap extends React.Component<Props, null> {
                 )
               );
             })}
-          <div lat={"37.77"} lng={"-122.41"}>
+          <div lat={37.775552} lng={-122.412469}>
             <span role={"img"} aria-label={"house emoji"}>
               🏠
             </span>

@@ -74,8 +74,8 @@ export default class App extends Component<null, { ...State }> {
 
     this.state = {
       data: null,
-      lat: 37.77,
-      lng: -122.41,
+      lat: 37.775552,
+      lng: -122.412469,
       range: 300
     };
   }
@@ -128,8 +128,11 @@ export default class App extends Component<null, { ...State }> {
         <Grid style={styles.appStyles}>
           <div>Last updated:</div>
           <code>{data ? dateFrom(data.asof).toString() : "fetching..."}</code>
+        </Grid>
+        <Grid style={styles.appStyles}>
           <div style={styles.contentContainer}>
-            <div
+            <Grid
+              xs={12}
               className="map-controls"
               style={{
                 display: "flex",
@@ -179,9 +182,10 @@ export default class App extends Component<null, { ...State }> {
               >
                 Refresh
               </Button>
-            </div>
-            <div className="map-container">
+            </Grid>
+            <Grid xs={12} className="map-container">
               <ScootMap
+                center={{ lat, lng }}
                 width={600}
                 height={400}
                 data={data}
@@ -189,8 +193,10 @@ export default class App extends Component<null, { ...State }> {
                 userLng={lng}
                 range={range}
               />
-            </div>
+            </Grid>
           </div>
+        </Grid>
+        <Grid xs={12} style={styles.appStyles}>
           <ScootTable data={scootersWithinRange} />
         </Grid>
       </>
