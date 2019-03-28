@@ -8,6 +8,10 @@ import Grid from "@material-ui/core/Grid";
 import { isMobile } from "react-device-detect";
 import BootstrapTable from "react-bootstrap-table-next";
 import "bootstrap/dist/css/bootstrap.min.css";
+import "react-bootstrap-table2-paginator/dist/react-bootstrap-table2-paginator.min.css";
+import paginationFactory from "react-bootstrap-table2-paginator";
+import geolib from "geolib";
+import filter from "lodash/filter";
 
 import ScootMap from "./components/ScootMap";
 import { APIENDPOINT } from "./constants/ApiEndpoint";
@@ -34,11 +38,24 @@ const styles = {
 const columns = [
   {
     dataField: "id",
-    text: "ID"
+    text: "ID",
+    sort: true
+  },
+  {
+    dataField: "current_location_id",
+    text: "Current Location Id"
+  },
+  {
+    dataField: "home_location_id",
+    text: "Home Location Id"
+  },
+  {
+    dataField: "physical_scoot_id",
+    text: "Physical Scoot Id"
   },
   {
     dataField: "is_charging",
-    text: "Is Charging?"
+    text: "Is Charging"
   },
   {
     dataField: "latitude",
@@ -47,6 +64,14 @@ const columns = [
   {
     dataField: "longitude",
     text: "Longitude"
+  },
+  {
+    dataField: "is_at_scoot_stop?",
+    text: "Is At Scoot Stop?"
+  },
+  {
+    dataField: "batt_pct_smoothed",
+    text: "Batt PCT Smoothed?"
   }
 ];
 
@@ -122,7 +147,24 @@ export default class App extends Component<null, { ...State }> {
 
   render() {
     let { data, lat, lng, range } = this.state;
-    let dateFrom = unitTimestamp => new Date(unitTimestamp);
+    let dateFrom = unixTimestamp => new Date(unixTimestamp);
+
+    let scootersWithinRange =
+      data &&
+      filter(
+        data.scooters,
+        each =>
+          geolib.getDistance(
+            {
+              latitude: parseFloat(lat),
+              longitude: parseFloat(lng)
+            },
+            {
+              latitude: parseFloat(each.latitude),
+              longitude: parseFloat(each.longitude)
+            }
+          ) <= range
+      );
 
     return (
       <>
@@ -192,12 +234,16 @@ export default class App extends Component<null, { ...State }> {
               />
             </div>
           </div>
-          <Grid className="table" style={{ display: "flex" }}>
+          <Grid
+            className="table"
+            style={{ display: "flex", flexDirection: "column", marginTop: 10 }}
+          >
             {data ? (
               <BootstrapTable
                 keyField="id"
-                data={data.scooters}
+                data={scootersWithinRange}
                 columns={columns}
+                pagination={paginationFactory()}
               />
             ) : (
               <div>Loading...</div>
