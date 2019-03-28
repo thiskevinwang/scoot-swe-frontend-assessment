@@ -11,6 +11,7 @@
     "lodash": "^4.17.11",
     "react": "^16.8.5",
     "react-bootstrap-table-next": "^3.0.3",
+    "react-bootstrap-table2-paginator": "^2.0.5",
     "react-device-detect": "^1.6.2",
     "react-dom": "^16.8.5",
     "react-scripts": "2.1.8"
