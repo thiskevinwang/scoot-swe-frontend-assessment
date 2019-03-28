@@ -5,16 +5,12 @@ import TextField from "@material-ui/core/TextField";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
-import LinearProgress from "@material-ui/core/LinearProgress";
 import { isMobile } from "react-device-detect";
-import BootstrapTable from "react-bootstrap-table-next";
-import "bootstrap/dist/css/bootstrap.min.css";
-import "react-bootstrap-table2-paginator/dist/react-bootstrap-table2-paginator.min.css";
-import paginationFactory from "react-bootstrap-table2-paginator";
 import geolib from "geolib";
 import filter from "lodash/filter";
 
 import ScootMap from "./components/ScootMap";
+import ScootTable from "./components/ScootTable";
 import { APIENDPOINT } from "./constants/ApiEndpoint";
 
 const styles = {
@@ -35,54 +31,6 @@ const styles = {
     color: "black"
   }
 };
-
-const columns = [
-  {
-    dataField: "id",
-    text: "ID",
-    sort: true
-  },
-  {
-    dataField: "current_location_id",
-    text: "Current Location Id",
-    sort: true
-  },
-  {
-    dataField: "home_location_id",
-    text: "Home Location Id",
-    sort: true
-  },
-  {
-    dataField: "physical_scoot_id",
-    text: "Physical Scoot Id",
-    sort: true
-  },
-  {
-    dataField: "is_charging",
-    text: "Is Charging",
-    sort: true
-  },
-  {
-    dataField: "latitude",
-    text: "Latitude",
-    sort: true
-  },
-  {
-    dataField: "longitude",
-    text: "Longitude",
-    sort: true
-  },
-  {
-    dataField: "is_at_scoot_stop?",
-    text: "Is At Scoot Stop?",
-    sort: true
-  },
-  {
-    dataField: "batt_pct_smoothed",
-    text: "Batt PCT Smoothed?",
-    sort: true
-  }
-];
 
 export type Data = {
   user_id: string,
@@ -243,23 +191,7 @@ export default class App extends Component<null, { ...State }> {
               />
             </div>
           </div>
-          <Grid
-            className="table"
-            style={{ display: "flex", flexDirection: "column", marginTop: 10 }}
-          >
-            {data ? (
-              <BootstrapTable
-                keyField="id"
-                data={scootersWithinRange}
-                columns={columns}
-                pagination={paginationFactory()}
-              />
-            ) : (
-              <div>
-                <LinearProgress />
-              </div>
-            )}
-          </Grid>
+          <ScootTable data={scootersWithinRange} />
         </Grid>
       </>
     );
