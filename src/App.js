@@ -5,6 +5,7 @@ import TextField from "@material-ui/core/TextField";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import Button from "@material-ui/core/Button";
 import { isMobile } from "react-device-detect";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 import ScootMap from "./components/ScootMap";
 import { APIENDPOINT } from "./constants/ApiEndpoint";
