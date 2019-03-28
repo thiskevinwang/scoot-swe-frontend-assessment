@@ -64,7 +64,11 @@ export default class ScootMap extends React.Component<Props, null> {
               );
             })}
           <div lat={DEFAULTLAT} lng={DEFAULTLNG}>
-            <span role={"img"} aria-label={"house emoji"}>
+            <span
+              style={{ fontSize: 24 }}
+              role={"img"}
+              aria-label={"house emoji"}
+            >
               🏠
             </span>
           </div>
@@ -72,7 +76,11 @@ export default class ScootMap extends React.Component<Props, null> {
             lat={parseFloat(this.props.userLat)}
             lng={parseFloat(this.props.userLng)}
           >
-            <span role={"img"} aria-label={"pin emoji"}>
+            <span
+              style={{ fontSize: 24 }}
+              role={"img"}
+              aria-label={"pin emoji"}
+            >
               📍
             </span>
           </div>
