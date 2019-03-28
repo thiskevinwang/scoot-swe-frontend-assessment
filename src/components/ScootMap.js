@@ -64,13 +64,17 @@ export default class ScootMap extends React.Component<Props, null> {
               );
             })}
           <div lat={"37.77"} lng={"-122.41"}>
-            🏠
+            <span role={"img"} aria-label={"house emoji"}>
+              🏠
+            </span>
           </div>
           <div
             lat={parseFloat(this.props.userLat)}
             lng={parseFloat(this.props.userLng)}
           >
-            📍
+            <span role={"img"} aria-label={"pin emoji"}>
+              📍
+            </span>
           </div>
         </GoogleMapReact>
       </div>
