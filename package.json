@@ -9,6 +9,7 @@
     "google-map-react": "^1.1.2",
     "lodash": "^4.17.11",
     "react": "^16.8.5",
+    "react-bootstrap-table-next": "^3.0.3",
     "react-device-detect": "^1.6.2",
     "react-dom": "^16.8.5",
     "react-scripts": "2.1.8"
