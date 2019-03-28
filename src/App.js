@@ -13,6 +13,9 @@ import ScootMap from "./components/ScootMap";
 import ScootTable from "./components/ScootTable";
 import { APIENDPOINT } from "./constants/ApiEndpoint";
 
+const DEFAULTLAT = 37.775552;
+const DEFAULTLNG = -122.412469;
+
 const styles = {
   appStyles: {
     padding: 15
@@ -74,8 +77,8 @@ export default class App extends Component<null, { ...State }> {
 
     this.state = {
       data: null,
-      lat: 37.775552,
-      lng: -122.412469,
+      lat: DEFAULTLAT,
+      lng: DEFAULTLNG,
       range: 300
     };
   }
@@ -113,8 +116,8 @@ export default class App extends Component<null, { ...State }> {
         each =>
           geolib.getDistance(
             {
-              latitude: parseFloat(lat),
-              longitude: parseFloat(lng)
+              latitude: parseFloat(lat) || DEFAULTLAT,
+              longitude: parseFloat(lng) || DEFAULTLNG
             },
             {
               latitude: parseFloat(each.latitude),
@@ -151,6 +154,9 @@ export default class App extends Component<null, { ...State }> {
                 style={styles.inputStyles}
                 variant={"outlined"}
                 onChange={e => this._handleNumberChange(e)}
+                onBlur={() => {
+                  !lat && this.setState({ lat: DEFAULTLAT });
+                }}
               />
               <TextField
                 name={"lng"}
@@ -161,6 +167,9 @@ export default class App extends Component<null, { ...State }> {
                 style={styles.inputStyles}
                 variant={"outlined"}
                 onChange={e => this._handleNumberChange(e)}
+                onBlur={() => {
+                  !lng && this.setState({ lng: DEFAULTLNG });
+                }}
               />
               <TextField
                 name={"range"}
