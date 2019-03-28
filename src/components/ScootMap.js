@@ -3,7 +3,7 @@ import React from "react";
 import GoogleMapReact from "google-map-react";
 import geolib from "geolib";
 import ScooterIcon from "./ScooterIcon";
-import { Data } from "../App";
+import { Data, DEFAULTLAT, DEFAULTLNG } from "../App";
 
 type Props = {
   center: {
@@ -19,11 +19,11 @@ type Props = {
 
 export default class ScootMap extends React.Component<Props, null> {
   static defaultProps: Props = {
-    center: { lat: 37.775552, lng: -122.412469 },
+    center: { lat: DEFAULTLAT, lng: DEFAULTLNG },
     zoom: 14,
     data: null,
-    userLat: 37.775552,
-    userLng: -122.412469,
+    userLat: DEFAULTLAT,
+    userLng: DEFAULTLNG,
     range: 300
   };
 
@@ -45,8 +45,8 @@ export default class ScootMap extends React.Component<Props, null> {
               return (
                 geolib.getDistance(
                   {
-                    latitude: parseFloat(this.props.userLat) || 37.77,
-                    longitude: parseFloat(this.props.userLng) || -122.41
+                    latitude: parseFloat(this.props.userLat) || DEFAULTLAT,
+                    longitude: parseFloat(this.props.userLng) || DEFAULTLNG
                   },
                   { latitude: each.latitude, longitude: each.longitude }
                 ) <= this.props.range && (
@@ -63,7 +63,7 @@ export default class ScootMap extends React.Component<Props, null> {
                 )
               );
             })}
-          <div lat={37.775552} lng={-122.412469}>
+          <div lat={DEFAULTLAT} lng={DEFAULTLNG}>
             <span role={"img"} aria-label={"house emoji"}>
               🏠
             </span>

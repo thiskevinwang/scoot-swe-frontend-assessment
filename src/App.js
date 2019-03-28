@@ -13,8 +13,8 @@ import ScootMap from "./components/ScootMap";
 import ScootTable from "./components/ScootTable";
 import { APIENDPOINT } from "./constants/ApiEndpoint";
 
-const DEFAULTLAT = 37.775552;
-const DEFAULTLNG = -122.412469;
+export const DEFAULTLAT = 37.775552;
+export const DEFAULTLNG = -122.412469;
 
 const styles = {
   appStyles: {
