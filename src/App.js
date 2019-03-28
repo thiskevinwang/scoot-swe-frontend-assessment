@@ -4,7 +4,15 @@ import React, { Component } from "react";
 import TextField from "@material-ui/core/TextField";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import Button from "@material-ui/core/Button";
+import Grid from "@material-ui/core/Grid";
+import LinearProgress from "@material-ui/core/LinearProgress";
 import { isMobile } from "react-device-detect";
+import BootstrapTable from "react-bootstrap-table-next";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "react-bootstrap-table2-paginator/dist/react-bootstrap-table2-paginator.min.css";
+import paginationFactory from "react-bootstrap-table2-paginator";
+import geolib from "geolib";
+import filter from "lodash/filter";
 
 import ScootMap from "./components/ScootMap";
 import { APIENDPOINT } from "./constants/ApiEndpoint";
@@ -27,6 +35,54 @@ const styles = {
     color: "black"
   }
 };
+
+const columns = [
+  {
+    dataField: "id",
+    text: "ID",
+    sort: true
+  },
+  {
+    dataField: "current_location_id",
+    text: "Current Location Id",
+    sort: true
+  },
+  {
+    dataField: "home_location_id",
+    text: "Home Location Id",
+    sort: true
+  },
+  {
+    dataField: "physical_scoot_id",
+    text: "Physical Scoot Id",
+    sort: true
+  },
+  {
+    dataField: "is_charging",
+    text: "Is Charging",
+    sort: true
+  },
+  {
+    dataField: "latitude",
+    text: "Latitude",
+    sort: true
+  },
+  {
+    dataField: "longitude",
+    text: "Longitude",
+    sort: true
+  },
+  {
+    dataField: "is_at_scoot_stop?",
+    text: "Is At Scoot Stop?",
+    sort: true
+  },
+  {
+    dataField: "batt_pct_smoothed",
+    text: "Batt PCT Smoothed?",
+    sort: true
+  }
+];
 
 export type Data = {
   user_id: string,
@@ -100,74 +156,112 @@ export default class App extends Component<null, { ...State }> {
 
   render() {
     let { data, lat, lng, range } = this.state;
-    let dateFrom = unitTimestamp => new Date(unitTimestamp);
+    let dateFrom = unixTimestamp => new Date(unixTimestamp);
+
+    let scootersWithinRange =
+      data &&
+      filter(
+        data.scooters,
+        each =>
+          geolib.getDistance(
+            {
+              latitude: parseFloat(lat),
+              longitude: parseFloat(lng)
+            },
+            {
+              latitude: parseFloat(each.latitude),
+              longitude: parseFloat(each.longitude)
+            }
+          ) <= range
+      );
 
     return (
-      <div style={styles.appStyles}>
-        <div>Last updated:</div>
-        <div>{data && dateFrom(data.asof).toString()}</div>
-        <div style={styles.contentContainer}>
-          <div
-            className="map-controls"
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              width: `100%`,
-              maxWidth: 600
-            }}
-          >
-            <TextField
-              name={"lat"}
-              type={"number"}
-              label={"lat"}
-              value={lat}
-              style={styles.inputStyles}
-              variant={"outlined"}
-              onChange={e => this._handleNumberChange(e)}
-            />
-            <TextField
-              name={"lng"}
-              type={"number"}
-              label={"lng"}
-              value={lng}
-              style={styles.inputStyles}
-              variant={"outlined"}
-              onChange={e => this._handleNumberChange(e)}
-            />
-            <TextField
-              name={"range"}
-              type={"number"}
-              label={"range"}
-              value={range}
-              style={styles.inputStyles}
-              variant={"outlined"}
-              onChange={e => this._handleNumberChange(e)}
-              InputProps={{
-                endAdornment: <InputAdornment position="end">m</InputAdornment>
-              }}
-            />
-            <Button
-              style={styles.inputStyles}
-              variant={"raised"}
-              onClick={() => {
-                this.fetchData();
+      <>
+        <Grid style={styles.appStyles}>
+          <div>Last updated:</div>
+          <code>{data ? dateFrom(data.asof).toString() : "fetching..."}</code>
+          <div style={styles.contentContainer}>
+            <div
+              className="map-controls"
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                width: `100%`,
+                maxWidth: 600
               }}
             >
-              Refresh
-            </Button>
+              <TextField
+                name={"lat"}
+                type={"number"}
+                label={"lat"}
+                value={lat}
+                style={styles.inputStyles}
+                variant={"outlined"}
+                onChange={e => this._handleNumberChange(e)}
+              />
+              <TextField
+                name={"lng"}
+                type={"number"}
+                label={"lng"}
+                value={lng}
+                style={styles.inputStyles}
+                variant={"outlined"}
+                onChange={e => this._handleNumberChange(e)}
+              />
+              <TextField
+                name={"range"}
+                type={"number"}
+                label={"range"}
+                value={range}
+                style={styles.inputStyles}
+                variant={"outlined"}
+                onChange={e => this._handleNumberChange(e)}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">m</InputAdornment>
+                  )
+                }}
+              />
+              <Button
+                style={styles.inputStyles}
+                variant={"raised"}
+                onClick={() => {
+                  this.fetchData();
+                }}
+              >
+                Refresh
+              </Button>
+            </div>
+            <div className="map-container">
+              <ScootMap
+                width={600}
+                height={400}
+                data={data}
+                userLat={lat}
+                userLng={lng}
+                range={range}
+              />
+            </div>
           </div>
-          <div className="map-container">
-            <ScootMap
-              width={600}
-              height={400}
-              data={data}
-              userLat={lat}
-              userLng={lng}
-              range={range}
-            />
-          </div>
-        </div>
-      </div>
+          <Grid
+            className="table"
+            style={{ display: "flex", flexDirection: "column", marginTop: 10 }}
+          >
+            {data ? (
+              <BootstrapTable
+                keyField="id"
+                data={scootersWithinRange}
+                columns={columns}
+                pagination={paginationFactory()}
+              />
+            ) : (
+              <div>
+                <LinearProgress />
+              </div>
+            )}
+          </Grid>
+        </Grid>
+      </>
     );
   }
 }
