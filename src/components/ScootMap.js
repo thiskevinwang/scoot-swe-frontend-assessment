@@ -3,7 +3,7 @@ import React from "react";
 import GoogleMapReact from "google-map-react";
 import geolib from "geolib";
 import ScooterIcon from "./ScooterIcon";
-import { Data, DEFAULTLAT, DEFAULTLNG } from "../App";
+import { type Data, DEFAULTLAT, DEFAULTLNG } from "../App";
 
 const KEY = process.env.REACT_APP_GOOGLE_API_KEY;
 
